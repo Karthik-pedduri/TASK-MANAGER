@@ -1,0 +1,18 @@
+================================================================================
+COMPREHENSIVE API ENDPOINT TESTS
+================================================================================
+[[94mINFO[0m] Setting up test user and authentication...
+Traceback (most recent call last):
+  File "/home/RAVEN/Documents/xmastasks/TASK MANAGER/tests/comprehensive_api_tests.py", line 932, in <module>
+    sys.exit(run_all_tests())
+             ^^^^^^^^^^^^^^^
+  File "/home/RAVEN/Documents/xmastasks/TASK MANAGER/tests/comprehensive_api_tests.py", line 800, in run_all_tests
+    if not authenticate():
+           ^^^^^^^^^^^^^^
+  File "/home/RAVEN/Documents/xmastasks/TASK MANAGER/tests/comprehensive_api_tests.py", line 776, in authenticate
+    status, res = make_request("POST", "/users/", user_payload)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/RAVEN/Documents/xmastasks/TASK MANAGER/tests/comprehensive_api_tests.py", line 32, in make_request
+    req = urllib.request.Request(url, method=method)
+          ^^^^^^
+UnboundLocalError: cannot access local variable 'urllib' where it is not associated with a value

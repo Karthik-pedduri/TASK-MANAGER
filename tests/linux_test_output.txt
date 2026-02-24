@@ -1,0 +1,66 @@
+================================================================================
+COMPREHENSIVE API ENDPOINT TESTS
+================================================================================
+[[94mINFO[0m] Testing GET / (Root/Health Check)...
+[[91mFAIL[0m] Root endpoint failed: <urlopen error [Errno 111] Connection refused>
+
+========================================
+TASK CREATION TESTS
+========================================
+[[94mINFO[0m] Testing POST /tasks/ with valid data...
+[[91mFAIL[0m] Failed to create valid task: <urlopen error [Errno 111] Connection refused>
+[[94mINFO[0m] Testing POST /tasks/ with no stages...
+[[91mFAIL[0m] Task without stages test: <urlopen error [Errno 111] Connection refused>
+[[94mINFO[0m] Testing POST /tasks/ with missing name (should fail)...
+[[91mFAIL[0m] Should have rejected missing name: 500 - <urlopen error [Errno 111] Connection refused>
+[[94mINFO[0m] Testing POST /tasks/ with invalid priority (should fail)...
+[[91mFAIL[0m] Should have rejected invalid priority: 500 - <urlopen error [Errno 111] Connection refused>
+[[94mINFO[0m] Testing POST /tasks/ with invalid date format (should fail)...
+[[91mFAIL[0m] Should have rejected invalid date: 500 - <urlopen error [Errno 111] Connection refused>
+[[94mINFO[0m] Testing POST /tasks/ with past due date...
+[[91mFAIL[0m] Unexpected response for past date: 500 - <urlopen error [Errno 111] Connection refused>
+[[94mINFO[0m] Testing POST /tasks/ with very long name (150 chars, DB limit is 100)...
+[[92mPASS[0m] DB constraint rejected long name (500) - consider adding Pydantic validation
+[[94mINFO[0m] Testing POST /tasks/ with special characters in name...
+[[91mFAIL[0m] Special char task failed: 500 - <urlopen error [Errno 111] Connection refused>
+[[94mINFO[0m] Testing POST /tasks/ with template_id...
+[[91mFAIL[0m] Template task creation: 500 - <urlopen error [Errno 111] Connection refused>
+[[94mINFO[0m] Testing POST /tasks/ with zero estimated_time_hours (should fail)...
+[[91mFAIL[0m] Zero hours test: 500 - <urlopen error [Errno 111] Connection refused>
+[[94mINFO[0m] Testing POST /tasks/ with negative estimated_time_hours (should fail)...
+[[91mFAIL[0m] Negative hours test: 500 - <urlopen error [Errno 111] Connection refused>
+
+========================================
+TASK RETRIEVAL TESTS
+========================================
+[[94mINFO[0m] Testing GET /tasks/999999 (should return 404)...
+[[91mFAIL[0m] Expected 404, got: 500 - <urlopen error [Errno 111] Connection refused>
+[[94mINFO[0m] Testing GET /tasks/invalid (should fail)...
+[[91mFAIL[0m] Invalid ID test: 500 - <urlopen error [Errno 111] Connection refused>
+[[94mINFO[0m] Testing GET /tasks/-1 (should fail)...
+[[91mFAIL[0m] Negative ID test: 500 - <urlopen error [Errno 111] Connection refused>
+[[94mINFO[0m] Testing GET /tasks/...
+[[91mFAIL[0m] Failed to list tasks: <urlopen error [Errno 111] Connection refused>
+
+========================================
+TASK UPDATE TESTS
+========================================
+[[94mINFO[0m] Testing PATCH /tasks/999999 (should return 404)...
+[[91mFAIL[0m] Expected 404, got: 500 - <urlopen error [Errno 111] Connection refused>
+
+========================================
+STAGE UPDATE TESTS
+========================================
+[[94mINFO[0m] Testing PUT /tasks/stages/999999 (should return 404)...
+[[91mFAIL[0m] Expected 404, got: 500 - <urlopen error [Errno 111] Connection refused>
+[[94mINFO[0m] Testing PUT /tasks/stages with missing status_state_id...
+Traceback (most recent call last):
+  File "/home/RAVEN/Documents/xmastasks/TASK MANAGER/tests/comprehensive_api_tests.py", line 886, in <module>
+    sys.exit(run_all_tests())
+             ^^^^^^^^^^^^^^^
+  File "/home/RAVEN/Documents/xmastasks/TASK MANAGER/tests/comprehensive_api_tests.py", line 810, in run_all_tests
+    test_update_stage_missing_status()
+  File "/home/RAVEN/Documents/xmastasks/TASK MANAGER/tests/comprehensive_api_tests.py", line 469, in test_update_stage_missing_status
+    if task.get("stages") and len(task["stages"]) > 0:
+       ^^^^^^^^
+AttributeError: 'str' object has no attribute 'get'

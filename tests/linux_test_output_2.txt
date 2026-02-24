@@ -1,0 +1,125 @@
+================================================================================
+COMPREHENSIVE API ENDPOINT TESTS
+================================================================================
+[[94mINFO[0m] Testing GET / (Root/Health Check)...
+[[92mPASS[0m] Root endpoint healthy
+
+========================================
+TASK CREATION TESTS
+========================================
+[[94mINFO[0m] Testing POST /tasks/ with valid data...
+[[91mFAIL[0m] Failed to create valid task: {'detail': 'Not authenticated'}
+[[94mINFO[0m] Testing POST /tasks/ with no stages...
+[[91mFAIL[0m] Task without stages test: {'detail': 'Not authenticated'}
+[[94mINFO[0m] Testing POST /tasks/ with missing name (should fail)...
+[[91mFAIL[0m] Should have rejected missing name: 401 - {'detail': 'Not authenticated'}
+[[94mINFO[0m] Testing POST /tasks/ with invalid priority (should fail)...
+[[91mFAIL[0m] Should have rejected invalid priority: 401 - {'detail': 'Not authenticated'}
+[[94mINFO[0m] Testing POST /tasks/ with invalid date format (should fail)...
+[[91mFAIL[0m] Should have rejected invalid date: 401 - {'detail': 'Not authenticated'}
+[[94mINFO[0m] Testing POST /tasks/ with past due date...
+[[91mFAIL[0m] Unexpected response for past date: 401 - {'detail': 'Not authenticated'}
+[[94mINFO[0m] Testing POST /tasks/ with very long name (150 chars, DB limit is 100)...
+[[91mFAIL[0m] Unexpected response for long name: 401
+[[94mINFO[0m] Testing POST /tasks/ with special characters in name...
+[[91mFAIL[0m] Special char task failed: 401 - {'detail': 'Not authenticated'}
+[[94mINFO[0m] Testing POST /tasks/ with template_id...
+[[91mFAIL[0m] Template task creation: 401 - {'detail': 'Not authenticated'}
+[[94mINFO[0m] Testing POST /tasks/ with zero estimated_time_hours (should fail)...
+[[91mFAIL[0m] Zero hours test: 401 - {'detail': 'Not authenticated'}
+[[94mINFO[0m] Testing POST /tasks/ with negative estimated_time_hours (should fail)...
+[[91mFAIL[0m] Negative hours test: 401 - {'detail': 'Not authenticated'}
+
+========================================
+TASK RETRIEVAL TESTS
+========================================
+[[94mINFO[0m] Testing GET /tasks/999999 (should return 404)...
+[[92mPASS[0m] Correctly returned 404 for non-existent task
+[[94mINFO[0m] Testing GET /tasks/invalid (should fail)...
+[[92mPASS[0m] Correctly rejected invalid task ID format
+[[94mINFO[0m] Testing GET /tasks/-1 (should fail)...
+[[92mPASS[0m] Correctly handled negative task ID
+[[94mINFO[0m] Testing GET /tasks/...
+[[92mPASS[0m] Listed 40 tasks successfully
+
+========================================
+TASK UPDATE TESTS
+========================================
+[[94mINFO[0m] Testing PATCH /tasks/999999 (should return 404)...
+[[92mPASS[0m] Correctly returned 404 for non-existent task
+
+========================================
+STAGE UPDATE TESTS
+========================================
+[[94mINFO[0m] Testing PUT /tasks/stages/999999 (should return 404)...
+[[92mPASS[0m] Correctly returned 404 for non-existent stage
+[[94mINFO[0m] Testing PUT /tasks/stages with missing status_state_id...
+[[92mPASS[0m] Correctly rejected missing status_state_id
+
+========================================
+STAGE DELETION TESTS
+========================================
+[[94mINFO[0m] Creating task with stages for deletion test...
+[[91mFAIL[0m] Failed to create task for stage deletion test
+[[94mINFO[0m] Testing DELETE /tasks/stages/999999 (should return 404)...
+[[92mPASS[0m] Correctly returned 404 for non-existent stage
+
+========================================
+ANALYSIS ENDPOINT TESTS
+========================================
+[[94mINFO[0m] Testing GET /analysis/completion...
+[[92mPASS[0m] Completion stats retrieved: ['total_completed', 'avg_duration_days', 'avg_delay_days', 'on_time_percentage', 'by_priority']
+[[94mINFO[0m] Testing GET /analysis/overdue...
+[[92mPASS[0m] Overdue stats: 6 overdue, 40 total
+[[94mINFO[0m] Testing GET /analysis/stage-variance...
+[[92mPASS[0m] Stage variance retrieved: ['total_completed_stages', 'avg_variance_hours', 'most_overestimated_stages', 'most_underestimated_stages', 'by_stage_name']
+[[94mINFO[0m] Testing GET /analysis/visualizations/priority...
+[[91mFAIL[0m] Priority chart failed: 500 - 'utf-8' codec can't decode byte 0x89 in position 0: invalid start byte
+[[94mINFO[0m] Testing GET /analysis/visualizations/completion-trends...
+[[91mFAIL[0m] Completion trends failed: 500 - 'utf-8' codec can't decode byte 0x89 in position 0: invalid start byte
+[[94mINFO[0m] Testing GET /analysis/visualizations/delay...
+[[91mFAIL[0m] Delay chart failed: 500 - 'utf-8' codec can't decode byte 0x89 in position 0: invalid start byte
+[[94mINFO[0m] Testing GET /analysis/reports/csv...
+[[92mPASS[0m] CSV report generated with 174 lines
+
+========================================
+WORKFLOW TESTS
+========================================
+[[94mINFO[0m] 
+=== WORKFLOW TEST: Complete Task Lifecycle ===
+[[91mFAIL[0m] Workflow: Failed to create task
+[[94mINFO[0m] 
+=== WORKFLOW TEST: Overdue Detection ===
+[[91mFAIL[0m] Overdue workflow: Failed to create task
+
+========================================
+DELETION TESTS (Cleanup)
+========================================
+[[94mINFO[0m] Testing DELETE /tasks/999999 (should return 404)...
+[[92mPASS[0m] Correctly returned 404 for non-existent task
+
+================================================================================
+TEST SUMMARY
+================================================================================
+Total Tests: 31
+[92mPassed: 14[0m
+[91mFailed: 17[0m
+
+Failed Tests:
+  - Failed to create valid task: {'detail': 'Not authenticated'}
+  - Task without stages test: {'detail': 'Not authenticated'}
+  - Should have rejected missing name: 401 - {'detail': 'Not authenticated'}
+  - Should have rejected invalid priority: 401 - {'detail': 'Not authenticated'}
+  - Should have rejected invalid date: 401 - {'detail': 'Not authenticated'}
+  - Unexpected response for past date: 401 - {'detail': 'Not authenticated'}
+  - Unexpected response for long name: 401
+  - Special char task failed: 401 - {'detail': 'Not authenticated'}
+  - Template task creation: 401 - {'detail': 'Not authenticated'}
+  - Zero hours test: 401 - {'detail': 'Not authenticated'}
+  - Negative hours test: 401 - {'detail': 'Not authenticated'}
+  - Failed to create task for stage deletion test
+  - Priority chart failed: 500 - 'utf-8' codec can't decode byte 0x89 in position 0: invalid start byte
+  - Completion trends failed: 500 - 'utf-8' codec can't decode byte 0x89 in position 0: invalid start byte
+  - Delay chart failed: 500 - 'utf-8' codec can't decode byte 0x89 in position 0: invalid start byte
+  - Workflow: Failed to create task
+  - Overdue workflow: Failed to create task
